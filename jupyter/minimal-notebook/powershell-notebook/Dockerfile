@@ -1,10 +1,11 @@
+# Note that in this image, the SHELL is pwsh
 FROM jaykul/powershell:dotnet-sdk-stretch as builder
 WORKDIR /root
 
-# Use array to avoid Docker prepending /bin/sh -c
-RUN git clone https://github.com/Jaykul/Jupyter-PowerShell.git \
-    && pwsh /root/Jupyter-PowerShell/build.ps1 -Platform Linux
+RUN git clone https://github.com/Jaykul/Jupyter-PowerShell.git; \
+    pwsh /root/Jupyter-PowerShell/build.ps1 -Platform Linux
 
+# But in this image, the SHELL is /bin/sh
 FROM jupyter/minimal-notebook:latest as runtime
 ARG SHA
 ARG SemVer

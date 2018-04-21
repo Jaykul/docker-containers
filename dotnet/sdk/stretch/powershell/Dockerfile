@@ -28,6 +28,8 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends powershell \
  && rm -rf /var/lib/apt/lists/*
 
+SHELL ["pwsh", "-command"]
+
 LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" 
 LABEL org.label-schema.description="An Ubuntu image with the .NET Core SDK and PowerShell"
 LABEL org.label-schema.name="jupyter-powershell"
