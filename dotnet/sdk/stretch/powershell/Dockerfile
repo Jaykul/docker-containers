@@ -1,13 +1,10 @@
 FROM microsoft/dotnet:sdk as base
 
 ARG LANGUAGE=en_US
+ARG SHA
+ARG SemVer
 
 WORKDIR /root
-
-LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" \
-    org.label-schema.schema-version="1.0" \
-    org.label-schema.name="jupyter-powershell-builder"\
-    description="Builds the latest Jupyter-PowerShell kernel."
 
 # Fix locales (on debian, locale-gen doesn't take parameters)
 ENV LANG C.UTF-8
@@ -29,4 +26,11 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && curl https://packages.microsoft.com/config/debian/9/prod.list | tee /etc/apt/sources.list.d/microsoft.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends powershell \
- && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /var/lib/apt/lists/*
+
+LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" 
+LABEL org.label-schema.description="An Ubuntu image with the .NET Core SDK and PowerShell"
+LABEL org.label-schema.name="jupyter-powershell"
+LABEL org.label-schema.docker.cmd="docker run -it jaykul/powershell-notebook-base pwsh"
+LABEL org.label-schema.schema-version="1.0.0-rc.1"
+LABEL org.label-schema.vcs-url="https://github.com/Jaykul/docker-containers"

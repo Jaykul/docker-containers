@@ -6,11 +6,11 @@ foreach ($DockerFile in Get-ChildItem -Recurse Dockerfile | Split-Path | Resolve
     # $Tag, $Name = $DockerFile -replace "[\\\/]", "-" -replace "^.-" -split "-(?=[^-]*$)", 2
     Write-Host "`n`n`nBuilding $DockerFile" -ForegroundColor Cyan
     Write-Host "jaykul/$($Name):$($Tag)`n" -ForegroundColor Cyan
-    docker build -t "jaykul/$($Name):$($Tag)" .
     if(Get-Command gitversion) {
         $version = gitversion | convertfrom-json
-        docker tag  "jaykul/$($Name):$($Tag)" "jaykul/$($Name):$($version.SemVer)"
-        docker tag  "jaykul/$($Name):$($Tag)" "jaykul/$($Name):$($version.Sha.Substring(0,9))"
+        docker build -t "jaykul/$($Name):$($Tag)" -t "jaykul/$($Name):$($version.SemVer)" -t "jaykul/$($Name):$($version.Sha.Substring(0,9))" --label org.label-schema.vcs-ref=$($Version.SHA) --label org.label-schema.version=$($Version.SemVer) .
+    } else {
+        docker build -t "jaykul/$($Name):$($Tag)" .
     }
     Pop-Location
 }
