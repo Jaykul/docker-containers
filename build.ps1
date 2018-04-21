@@ -9,8 +9,8 @@ foreach ($DockerFile in Get-ChildItem -Recurse Dockerfile | Split-Path | Resolve
     docker build -t "jaykul/$($Name):$($Tag)" .
     if(Get-Command gitversion) {
         $version = gitversion | convertfrom-json
-        docker tag  "jaykul/$($Name):$($Tag)" "jaykul/powershell-notebook:$($version.SemVer)"
-        docker tag  "jaykul/$($Name):$($Tag)" "jaykul/powershell-notebook:$($version.Sha.Substring(0,9))"
+        docker tag  "jaykul/$($Name):$($Tag)" "jaykul/$($Name):$($version.SemVer)"
+        docker tag  "jaykul/$($Name):$($Tag)" "jaykul/$($Name):$($version.Sha.Substring(0,9))"
     }
     Pop-Location
 }
