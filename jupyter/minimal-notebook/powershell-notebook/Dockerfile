@@ -30,6 +30,7 @@ RUN chown -R ${NB_UID} ${HOME} \
     && sed -i -e "s.PowerShell-Kernel./usr/src/jupyter-powershell/PowerShell-Kernel." /usr/local/share/jupyter/kernels/powershell/kernel.json
 
 USER ${NB_USER}
+RUN conda install -c conda-forge ipywidgets
 
 LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" 
 LABEL org.label-schema.description="An Ubuntu image with Jupyter and the Jupyter-PowerShell kernel"

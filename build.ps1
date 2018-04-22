@@ -1,4 +1,4 @@
-Push-Location $PSScriptRoot
+Push-Location $PSScriptRoot -StackName PreBuild
 foreach ($DockerFile in Get-ChildItem -Recurse Dockerfile | Split-Path | Resolve-Path -relative) {
     Push-Location $DockerFile
     $Tag, $Name = ($DockerFile -split "[\\\/](?=[^\\\/]*$)", 2 ) -replace "[\\\/]", "-" -replace "^.-"
@@ -8,9 +8,10 @@ foreach ($DockerFile in Get-ChildItem -Recurse Dockerfile | Split-Path | Resolve
     Write-Host "jaykul/$($Name):$($Tag)`n" -ForegroundColor Cyan
     if(Get-Command gitversion) {
         $version = gitversion | convertfrom-json
-        docker build -t "jaykul/$($Name):$($Tag)" -t "jaykul/$($Name):$($version.SemVer)" -t "jaykul/$($Name):$($version.Sha.Substring(0,9))" --label org.label-schema.vcs-ref=$($Version.SHA) --label org.label-schema.version=$($Version.SemVer) .
+        docker build -t "jaykul/$($Name):latest" -t "jaykul/$($Name):$($Tag)" -t "jaykul/$($Name):$($version.SemVer)" -t "jaykul/$($Name):$($version.Sha.Substring(0,9))" --label org.label-schema.vcs-ref=$($Version.SHA) --label org.label-schema.version=$($Version.SemVer) .
     } else {
-        docker build -t "jaykul/$($Name):$($Tag)" .
+        docker build -t "jaykul/$($Name):latest" -t "jaykul/$($Name):$($Tag)" .
     }
     Pop-Location
 }
+Pop-Location -StackName PreBuild

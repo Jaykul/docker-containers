@@ -29,6 +29,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
  && rm -rf /var/lib/apt/lists/*
 
 SHELL ["pwsh", "-command"]
+ENTRYPOINT ["pwsh"]
 
 LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" 
 LABEL org.label-schema.description="An Ubuntu image with the .NET Core SDK and PowerShell"

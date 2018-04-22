@@ -8,8 +8,20 @@ The base image here is the latest .NET Core SDK image (on debian stretch), with 
 
 It's important to realize that this image is running PowerShell Core as the `SHELL` in docker, so if you use it, any thing you `RUN` in it runs in PowerShell by default.
 
+You can try it by running:
+
+```posh
+docker run -it jaykul/powershell
+```
+
 ## Jupyter
 
 The base images here are [jupyter's `-notebook` images](https://hub.docker.com/r/jupyter) and they run bash. These are the base and minimal notebook images from jupyter, with my [PowerShell Kernel](https://github.com/Jaykul/Jupyter-PowerShell) installed and registered.
 
 The dockerfiles here are actually Multi-Stage files, they start with the PowerShell image I mentioned above, `git clone` the kernel and compile it, and then copy the compiled kernel into the jupyter base images...
+
+You can try it by running:
+
+```posh
+docker run -it --rm -p 8888:8888 jaykul/powershell-notebook-base
+```
