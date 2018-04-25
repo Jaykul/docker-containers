@@ -1,8 +1,6 @@
-FROM microsoft/dotnet:sdk as base
+FROM microsoft/dotnet:2.0-sdk-stretch as base
 
 ARG LANGUAGE=en_US
-ARG SHA
-ARG SemVer
 
 WORKDIR /root
 
@@ -33,7 +31,7 @@ ENTRYPOINT ["pwsh"]
 
 LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" 
 LABEL org.label-schema.description="An Ubuntu image with the .NET Core SDK and PowerShell"
-LABEL org.label-schema.name="jupyter-powershell"
-LABEL org.label-schema.docker.cmd="docker run -it jaykul/powershell-notebook-base pwsh"
+LABEL org.label-schema.name="powershell"
+LABEL org.label-schema.docker.cmd="docker run -it jaykul/powershell"
 LABEL org.label-schema.schema-version="1.0.0-rc.1"
 LABEL org.label-schema.vcs-url="https://github.com/Jaykul/docker-containers"
