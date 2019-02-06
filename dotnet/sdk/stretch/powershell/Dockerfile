@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.0-sdk-stretch as base
+FROM microsoft/dotnet:2.2-sdk-stretch as base
 
 ARG LANGUAGE=en_US
 
@@ -29,9 +29,8 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
 SHELL ["pwsh", "-command"]
 ENTRYPOINT ["pwsh"]
 
-LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" 
+LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>"
 LABEL org.label-schema.description="An Ubuntu image with the .NET Core SDK and PowerShell"
 LABEL org.label-schema.name="powershell"
 LABEL org.label-schema.docker.cmd="docker run -it jaykul/powershell"
-LABEL org.label-schema.schema-version="1.0.0-rc.1"
 LABEL org.label-schema.vcs-url="https://github.com/Jaykul/docker-containers"
