@@ -8,13 +8,13 @@ ADD https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe Min
 RUN .\Miniconda3.exe /InstallationType=JustMe /RegisterPython=0 /S /D=C:\Miniconda3
 
 # Note that in this image, the SHELL is pwsh
-FROM jaykul/nano-powershell as builder
+FROM jaykul/powershell:sdk-nanoserver as builder
 
 RUN git clone https://github.com/Jaykul/Jupyter-PowerShell.git; `
     # TO USE DEV BRANCH: set-location Jupyter-PowerShell; git checkout dev; `
     pwsh /Users/ContainerUser/Jupyter-PowerShell/build.ps1 -Platform Windows; `
     $kernel = "'/Users/ContainerUser/Jupyter-PowerShell/Output/Release/Windows/kernel.json'"; `
-    set-content $kernel ((get-content $kernel) -replace "'PowerShell-Kernel'", "'C:\\Program Files\\Jupyter-PowerShell\\PowerShell-Kernel'"); 
+    set-content $kernel ((get-content $kernel) -replace "'PowerShell-Kernel'", "'C:\\Program Files\\Jupyter-PowerShell\\PowerShell-Kernel'");
 
 
 # But in this image, the SHELL is cmd
@@ -46,12 +46,12 @@ COPY --from=builder ["/Users/ContainerUser/Jupyter-PowerShell/Features.ipynb", "
 EXPOSE 8888
 WORKDIR /Users/ContainerUser/Documents
 CMD jupyter notebook
-# TODO: Install Python and Jupyter 
+# TODO: Install Python and Jupyter
 # RUN conda install -c conda-forge ipywidgets
 
-LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" 
+LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>"
 LABEL org.label-schema.description="An Ubuntu image with Jupyter and the Jupyter-PowerShell kernel"
 LABEL org.label-schema.name="powershell-notebook"
-LABEL org.label-schema.docker.cmd="docker run -it --rm -p 8888:8888 jaykul/powershell-notebook" 
+LABEL org.label-schema.docker.cmd="docker run -it --rm -p 8888:8888 jaykul/powershell-notebook"
 LABEL org.label-schema.schema-version="1.0.0-rc.1"
 LABEL org.label-schema.vcs-url="https://github.com/Jaykul/Jupyter-PowerShell"

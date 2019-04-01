@@ -1,5 +1,5 @@
 # Note that in this image, the SHELL is pwsh
-FROM jaykul/powershell:dotnet-sdk-stretch as builder
+FROM jaykul/powershell:sdk-stretch as builder
 
 RUN git clone https://github.com/Jaykul/Jupyter-PowerShell.git; \
     pwsh /root/Jupyter-PowerShell/build.ps1 -Platform Linux \
@@ -15,7 +15,7 @@ RUN apt-get update \
     apt-get install -y --no-install-recommends \
     libc6 libgcc1 libgssapi-krb5-2 liblttng-ust0 libstdc++6 libcurl3 libunwind8 libuuid1 zlib1g libssl1.0.0 libicu55 \
     && rm -rf /var/lib/apt/lists/*
-    
+
 # Copy the kernel itself
 COPY --from=builder /root/Jupyter-PowerShell/Output/Release/Linux /usr/src/jupyter-powershell
 # And some notebooks to start with
@@ -28,9 +28,9 @@ RUN chown -R ${NB_UID} ${HOME} \
 USER ${NB_USER}
 RUN conda install -c conda-forge ipywidgets
 
-LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>" 
+LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>"
 LABEL org.label-schema.description="An Ubuntu image with Jupyter and the Jupyter-PowerShell kernel"
 LABEL org.label-schema.name="powershell-notebook"
-LABEL org.label-schema.docker.cmd="docker run -it --rm -p 8888:8888 jaykul/powershell-notebook" 
+LABEL org.label-schema.docker.cmd="docker run -it --rm -p 8888:8888 jaykul/powershell-notebook"
 LABEL org.label-schema.schema-version="1.0.0-rc.1"
 LABEL org.label-schema.vcs-url="https://github.com/Jaykul/Jupyter-PowerShell"

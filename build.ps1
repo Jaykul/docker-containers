@@ -1,15 +1,13 @@
 [CmdletBinding()]
 param(
-    [ValidateSet("dotnet","jupyter")]
+    [ValidateSet("coder","dotnet","jupyter")]
     [Parameter(Mandatory)]
     $path
 )
-Set-Location $PSScriptRoot
-if($Path) {
+Push-Location $PSScriptRoot -StackName PreBuild
+if ($Path) {
     Set-Location $Path
 }
-
-Push-Location -StackName PreBuild
 foreach ($DockerFile in Get-ChildItem -Recurse Dockerfile | Split-Path | Resolve-Path -relative) {
     Push-Location $DockerFile
     $Tag, $Name = ($DockerFile -split "[\\\/](?=[^\\\/]*$)", 2 ) -replace "[\\\/]", "-" -replace "^.-"
@@ -26,3 +24,8 @@ foreach ($DockerFile in Get-ChildItem -Recurse Dockerfile | Split-Path | Resolve
     Pop-Location
 }
 Pop-Location -StackName PreBuild
+
+Write-Host "To upload these new images to docker hub, you'll want to run:
+docker login
+... and then push some images, like:
+docker push jaykul/powershell"

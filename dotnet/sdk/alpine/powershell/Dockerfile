@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.2-sdk-alpine as build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine as build
 
 ARG PS_VERSION=6.1.2
 ARG PS_INSTALL_VERSION=6
@@ -15,7 +15,7 @@ RUN mkdir -p ${PS_INSTALL_FOLDER}
 RUN tar zxf /tmp/powershell.tar.gz -C ${PS_INSTALL_FOLDER}
 
 # This image is just the dotnet SDK with PowerShell preinstalled
-FROM microsoft/dotnet:2.2-sdk-alpine as release
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine as release
 ARG PS_INSTALL_VERSION=6
 
 # Copy the files we need from the previous stage
@@ -53,7 +53,7 @@ SHELL ["pwsh", "-command"]
 ENTRYPOINT ["pwsh"]
 
 LABEL maintainer="Joel Bennett <Jaykul@HuddledMasses.org>"
-LABEL org.label-schema.description="An Ubuntu image with the .NET Core SDK and PowerShell"
+LABEL org.label-schema.description="An alpine image with the .NET Core SDK and PowerShell"
 LABEL org.label-schema.name="powershell"
 LABEL org.label-schema.docker.cmd="docker run -it jaykul/powershell"
 LABEL org.label-schema.vcs-url="https://github.com/Jaykul/docker-containers"

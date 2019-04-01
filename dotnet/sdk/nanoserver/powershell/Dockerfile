@@ -16,7 +16,7 @@ RUN Expand-Archive powershell.zip -DestinationPath \PowerShell; `
     Remove-Item *.zip
 
 # This image is just the dotnet SDK with PowerShell preinstalled
-FROM microsoft/dotnet:2.2-sdk-nanoserver-1809 as release
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2-nanoserver-1809 as release
 USER Administrator
 
 COPY --from=build ["PowerShell", "C:\\Program Files\\PowerShell"]
